@@ -5,7 +5,7 @@ RUN apk add gcc alpine-sdk
 COPY requirements.txt ./
 RUN pip install --no-cache-dir --target . -r requirements.txt
 
-FROM python:3.11.6-alpine3.18
+FROM python:3.11.6-alpine3.18 AS prod
 WORKDIR /opt/modbus2mqtt
 ADD ./*.py ./
 COPY --from=builder /build/ ./
