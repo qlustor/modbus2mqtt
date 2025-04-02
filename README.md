@@ -78,6 +78,7 @@ sources:
   - name: "deye-inverter"  # <--- (required) Name of your soruce
     schema: deye-inverter  # <--- (required) Name of the schema to read from this device
     host: "192.168.0.30"   # <--- (optional) Replace with the modbus gateway IP (default is loclahost)
+ or host: "/dev/ttyUSB0"   # <---            or /dev/tty device if serial/modbus
     port: 502              # <--- (optional) Port your gateway is listening on (default is 502)
     unitid: 1              # <--- (optional) Modbus device id to read from (default is 1)
     topic_prefix: "abc"    # <--- (optional) Appened after <mqtt.topic_prefix>/
