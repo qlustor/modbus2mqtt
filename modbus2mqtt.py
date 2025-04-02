@@ -12,6 +12,7 @@ from typing import List
 from queue import Queue
 from threading import Thread, Lock
 from pymodbus.client import ModbusTcpClient
+from pymodbus.client import ModbusSerialClient
 from pymodbus.exceptions import ModbusException
 from pymodbus.pdu import ExceptionResponse
 from pymodbus.constants import Endian
@@ -367,7 +368,15 @@ class ModbusSource:
         self.name = name
         self.enabled = enabled
         self.queue = Queue()
-        if enabled:
+        if enabled & self.host.startswith("/dev/"):
+            self.client = ModbusSerialClient(port=self.host,
+                            baudrate=9600,
+                            bytesize=8,
+                            parity="N",
+                            stopbits=1,
+                            handle_local_echo=True,
+                            framer=FramerType.RTU)
+        elif enabled:
             self.client = ModbusTcpClient(host=self.host,
                             port=self.port,
                             retries=1,
@@ -375,6 +384,7 @@ class ModbusSource:
                             retry_on_empty=True,
                             framer=ModbusSocketFramer,
                             close_comm_on_error=False)
+
         self.cache = {}
         self.track = {}
         self.lock = Lock()
