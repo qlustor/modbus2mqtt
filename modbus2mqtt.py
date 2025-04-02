@@ -374,8 +374,7 @@ class ModbusSource:
                             bytesize=8,
                             parity="N",
                             stopbits=1,
-                            handle_local_echo=True,
-                            framer=FramerType.RTU)
+                            handle_local_echo=True)
         elif enabled:
             self.client = ModbusTcpClient(host=self.host,
                             port=self.port,
